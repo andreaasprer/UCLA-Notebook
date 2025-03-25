@@ -1,0 +1,25 @@
+When running the command git branch -va on the two repos these were my outputs:
+
+Git's Repository:
+* master                0394451348 The eleventh batch
+  remotes/origin/HEAD   -> origin/master
+  remotes/origin/jch    515fd3a3b8 Merge branch 'bc/ancient-ci' into jch
+  remotes/origin/maint  f93ff170b9 Git 2.48.1
+  remotes/origin/master 0394451348 The eleventh batch
+  remotes/origin/next   ff9fcf71b7 Sync with 'master'
+  remotes/origin/seen   177f628f59 Merge branch 'cc/lop-remote' into seen
+  remotes/origin/todo   6b64ee2d16 What's cooking (2025/02 #05)
+
+Eggert's Repository:
+  maint                 f93ff170b9 Git 2.48.1
+* master                388218fac7 The ninth batch
+  remotes/origin/HEAD   -> origin/master
+  remotes/origin/jch    515fd3a3b8 Merge branch 'bc/ancient-ci' into jch
+  remotes/origin/maint  f93ff170b9 Git 2.48.1
+  remotes/origin/master 388218fac7 The ninth batch
+  remotes/origin/next   d13b5baf06 Merge branch 'bc/contrib-thunderbird-patch-inline-fix' into next
+  remotes/origin/seen   5ffff88925 Merge branch 'sj/ref-consistency-checks-more' into seen
+  remotes/origin/todo   15c6383f80 What's cooking (2025/02 #03)
+
+There are a few differences, it seems that Eggert's is not up to date and has different commit id's hence the different messages.
+Also there is an additional branch called maint that Git's repository doesnt have. 

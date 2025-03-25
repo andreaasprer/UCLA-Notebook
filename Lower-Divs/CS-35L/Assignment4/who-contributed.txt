@@ -1,0 +1,41 @@
+1. git grep "Even newspaper reports present contradictory information."
+
+    Searches through the repo for where the string is. Amd shows that it is in the northamerica file.
+
+2. git blame northamerica | grep "Even newspaper reports present contradictory information."
+
+    However this did not give me the right information because it is not the initial commit where the string we are searching for was first introduced.
+
+3. git log -S "Even newspaper reports present contradictory information."
+
+    This gave me better information, this is the output:
+        commit c12b432741eed9a422fbf99fa27af6e7a941d88b
+        Author: Arthur David Olson <ado@elsie>
+        Date:   Thu Dec 21 11:43:42 1995 -0500
+
+            Eggert changes
+            
+            SCCS-file: northamerica
+            SCCS-SID: 7.20
+
+    From the output, I learned the commit that introduced the line. So I looked into the commit with
+
+4. git blame c12b432741eed9a422fbf99fa27af6e7a941d88b northamerica | grep "Even newspaper reports present contradictory information."
+
+    This command gave me this output
+        c12b43274 (Arthur David Olson 1995-12-21 11:43:42 -0500  285) # and writes ``Even newspaper reports present contradictory information.''
+
+    So in this commit the original author is Arthur David Olson from 1995 with the commit id: c12b43274
+
+    However, I want to see what Prof. Eggert changed to this line so I ran the command:
+
+5. git blame northamerica | grep "Even newspaper reports present contradictory information."
+
+    This gave me the commit id c8f960ec7 which showed that Eggert modified the line. 
+
+6. git show c8f960ec7 | git grep "Even newspaper reports present contradictory information."
+
+    I ran this command to see the specifics of what Prof. Eggert changed which is:
+    northamerica:# and wrote "Even newspaper reports present contradictory information."
+
+    From the information I gathered, it seemed all that Prof. Eggert did was change writes to wrote.

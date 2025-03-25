@@ -1,0 +1,35 @@
+Since were looking at Git v2.39, I decided to only look at commits during this version so I ran,
+
+  git checkout v2.39.0
+
+Now I want to look for commits that includes the string we are looking for with:
+
+  git log --grep='In read-only repositories'
+
+which gave two commits with the ids:
+  bcf22f29df87f25582de0ac9274d1567fa16be6f
+  19118cb8570e499e1a56e81740cee3d1c1206b44
+so from these commits, there were messages about mergin the branch 'js/merge-ort-in-read-only-repo'. So let's look at where the merge happens.
+
+  git show 92481d1b26
+
+This outputted a commit message saying they fixed the segfault so let's go to previous commits.
+
+  git show 92481d1b26^
+
+So in this commit, whos author is Johannes Schindelin, this is where it fixes the segmentation fault in real-only repositories.
+The output of running this with relavant information is as follows: 
+
+  """
+  Author: Johannes Schindelin <Johannes.Schindelin@gmx.de>
+  Date:   Wed Sep 28 07:29:21 2022 +0000
+
+    merge-ort: fix segmentation fault in read-only repositories
+
+  ...
+  Reviewed-by: Elijah Newren <newren@gmail.com>
+  Signed-off-by: Johannes Schindelin <johannes.schindelin@gmx.de>
+  Signed-off-by: Junio C Hamano <gitster@pobox.com>
+  """
+
+Then further down the output, the actual fix was to change static void into static int and having a default return. 

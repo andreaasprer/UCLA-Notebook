@@ -1,0 +1,53 @@
+--- exer1.html	2025-01-08 19:23:17.339826000 -0800
++++ exer2.html	2025-01-11 22:18:27.176429000 -0800
+@@ -74,7 +74,6 @@
+      and you are not expected to read it all.</li>
+ </ul>
+ 
+-<!-- diff，在UNIX系統上的一個工具程式，它可以比較兩個檔案之間的不同。通常它被用來比較同一個檔案，在不同版本間的差異。它可以產生一個擴展名為.diff或.patch的檔案，這個檔案可以被另一個工具程式patch來使用。-->
+ 
+ </section>
+ <section>
+@@ -102,7 +101,7 @@
+     we won’t bother with dribble files in later assignments.)</li>
+ </ol>
+ 
+-<!-- DELETE-ME DELETE-ME DELETE-ME -->
++
+ <p>
+ For the following lab exercises,
+ use intelligent ways of answering the questions. For example, if
+@@ -512,9 +511,9 @@
+ <section>
+ <h2>Submit</h2>
+ 
+-<!-- You can learn more about HTML comments at
+-	<https://en.wikipedia.org/wiki/HTML_comment#Comments>.
+-	-->
++
++
++
+ 
+ 	  <p>Submit the following files within a compressed <a href='https://en.wikipedia.org/wiki/Tar_(computing)'>tarball</a> named
+ 	    <samp>assign1.tgz</samp>.</p>
+@@ -541,10 +540,10 @@
+ 
+ <p>should output a list of file names that contains <samp>myspell</samp>
+   etc., with sizes and other metainformation about the files.</p>
+-<!--
+-<p>Or maybe more lines, if something has gone wrong.</p>
+--<->-
+--->
++
++
++
++
+ </section>
+ 
+ <footer>
+@@ -562,4 +561,4 @@
+ 
+ </body>
+ </html>
+-<!-- end of HTML resource -->
++

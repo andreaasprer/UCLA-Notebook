@@ -1,0 +1,40 @@
+Lab 1.1:
+10. No, I did it by searching.
+
+Lab 1.2:
+
+Lab 1.3:
+6. The non-ascii character was a horizonal ellipsis (...)
+
+Lab 1.4:
+8. pain
+
+Lab 1.5:
+1. Found where the shell commands were using the which command.
+	sh : /usr/bin/sh
+	sleep : /usr/bin/sleep
+	type : /usr/bin/type
+2. There are two executable programs: seq and sed. Found these files using the find command.
+Specifically, find /usr/bin -type f -name "se?" -executable. Inside the /usr/bin directory it will try to find regular files (-type f) with a 3 letter name that starts with se, and -executable makes sure it is one. 
+	seq: prints a sequence of numbers. From first to last and increments them.
+	sed: sed is a stream editor used to filter and transform text
+3. The file that is executed is found at /usr/local/cs/emacs-29.4/bin/emacs-29.4. Just kept using ls, then following the symlink with cd and ls.
+I tried looking for this file listing out all the files in usr/local/cs/bin/emacs through ls but it wasnting it out. Then I remembered to use the -l flag to see the file details and thats where it printed that the symbolic link points to the file I found
+4. The version number of the /usr/b Then for the plain gcc program, doing gcc --version it outputted 14.2.0. They are different programs because they have different paths. Using which gcc is outputted the path of plain gcc to be /usr/local/cs/bin/gcc  I had to modify the paththe start of this assignment.
+5. answers in lab5.txt
+6. -newer flag was very helpful for this question. Used find /usr/local/cs -type d -newer /usr/local/cs/lib for this question. Tried piping it with sort to output it alphabetically but wouldn't work. So left it as is and just looked at the first 5 files outputted by the function I had
+7. just did find command with -type flag for regular files (f). Then did the wc command with -l flag to count and print how many files there were
+8. Same as 7 but did -type l for symlinks. However did was giving be 419 which autograder said was wrong. Realized my mistake that it was also counting symlinks in subdirectories.
+	To fix this, added -maxdepth flag to just check the symlinks in this directory. 
+9. autograder saying wrong
+10. In emacs I used apropos-command to find the commands. Gave me 7 commands starting with transpose.
+11. yank. Which i found what it does doing C-h f. It basically pastes. Or more accurately reinserts the most recent kill.
+	To invoke it with keystrokes you do C-y
+12. ps reports a snapshot of the current processes. The flags:
+-e	Displays all processes running on the system (same as -A).
+-f	Full-format listing, including PPID (parent process ID), user, and command.
+-j	Displays session IDs and process group IDs (useful for job control).
+-l	Displays long format, including priority, nice value, and flags.
+-t	Filters by terminal (TTY). Example: ps -t pts/1 shows processes on a specific terminal.
+-H	Displays process hierarchy (indents child processes under their parents).
+-T	Shows threads associated with processes running in the current terminal session.

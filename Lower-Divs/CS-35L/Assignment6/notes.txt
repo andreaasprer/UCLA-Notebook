@@ -1,0 +1,139 @@
+Assignment 6
+
+Step 1: Setup and Starter Code
+    - Make a directory to store the project files in
+    - wget to get the tarball files and unzip in newly created directory
+    - use git reset --hard to clear directory to last commit
+
+    - run 'make' to build project
+    - test program with different variations of ./randall
+
+Step 2: Unit Testing
+    - create a unit test inside 'Makefile'
+    - add 'check: randall' followed by the indented Code
+    - First test I made was to check if the number of bytes outputted is the correct amount
+        - run ./randall <number> then pipe into wc -c then pipe to grep to see if it matches <number>
+    - now test randall with 'make check'
+
+Step 3: Refactoring and Modify Makefile
+    - Create header and c files for:
+        - rand64-hw
+        - rand64-sw
+        - options
+        - output
+
+    - The general process is as follows:
+        - Copy functions related to the files into their corresponding files in the c files.
+        - Add function and struct declarations into the header files, which are wrapped by an include guard
+        - Include only the necessary libraries which can be done incrementally by checking with 'make' with what is missing
+        - Remove static from the functions
+
+    - Specifically for output and options, I took some of the code from the main function in randall.c, and 
+      created their own functions in their corresponding c files.
+    - Inside main, I replaced the code I removed with calling those functions.
+
+    - After every section you refactor, make sure to test correctness by running 'make' and 'make check'
+
+    - Update Makefile so that it compiles all the new files with the following code
+
+        FILES = $(wildcard *.c) $(wildcard *.h)
+        randall: randall.c $(FILES)
+	        $(CC) $(CFLAGS) *.c -o $@
+
+Step 4: Argument Parsing
+    - To implement this, we will use getopt library
+    - In main function, add while ((argVal = getopt (argc, argv, "i:o:")) != -1) then have a switch statement for the options.
+    - Set default values of input and output to rdrand and stdio, respectively.
+    - In options.h, add unistd.h to check for errors with the arguments
+
+    - Modify handle_output
+        - Since we have multiple options for input and output we need to add if-else if-else cases.
+        - Add error checking for missing input or output arguments
+        - The if statements should use strcmp and for the file, it should use strncmp
+            - ex: strcmp(input, "rdrand") == 0
+    
+    - Implement rdrand and stdio
+        - For rdrand, all the work is done, so all you have to do is move all the code within the body of the rdrand if statement.
+        - Make sure to add a check for rdrand_supported()
+        - For stdio, also move all the code. No changes for now.
+    
+    - Implement /F option for input
+        - The initialization now takes a filepath as an argument. The type is a c string (const char *)
+        - Update initialize in output.c since it now takes an input. 
+        - Since rdrand still takes in no value, fix this bug with initialize = (void (*)(const char *))hardware_rand64_init;
+    
+    - Implement mrand48_r option
+        - All the changes will happen in rand64-sw.c
+        - Add in stdlib.h and time.h
+        - Duplicate the software functions but rename it with mrand48;
+        - Change the initialize function to have the body srand48_r(time(NULL), &state) to set up the state using time
+        - Delete everything in the finalize function.
+        - In the function that handles randomization, call mrand48_r twice, to get 2 random 32 bits. Store each in a variable.
+        - Add error checking to make sure that these function calls returned valid data.
+        - Change the random bits to unsigned long longs. Shift first 32 bits to left 32 times, then or it with the second 32 bits to create the required 64 bits.
+
+    - Implement N option 
+        - Check if we got a valid N (an integer greater than 0)
+        - Allocate space for a buffer, with the size of nbytes
+        - Make sure to write to stdout by setting the file desriptor to 1
+        - Loop while there is still bits to write remaining
+            - In the loop, we will check how many bits to write by adjusting N
+            - Fill buffer with random bytes by using rand64() and increment our buffer position
+            - write buffer to stdout with the write system call
+        - Free buffer once all bytes are written
+        - Add error checking to make sure malloc and closing stdout was done correctly
+
+
+TIME TESTS:
+
+TEST 1:
+    time dd if=/dev/urandom ibs=8192 obs=8192 count=16384 >/dev/null
+    16384+0 records in
+    16384+0 records out
+    134217728 bytes (134 MB, 128 MiB) copied, 0.522578 s, 257 MB/s
+
+    real    0m0.525s
+    user    0m0.030s
+    sys     0m0.490s
+
+TEST 2:
+    time ./randall 133562368 >/dev/null
+
+    real    0m6.268s
+    user    0m6.182s
+    sys     0m0.022s
+
+WITH /DEV/URANDOM
+    time ./randall 133562368 -i /dev/urandom >/dev/null
+
+    real    0m4.475s
+    user    0m3.920s
+    sys     0m0.504s
+
+TEST 3:
+    time ./randall 133562368 | cat >/dev/null
+
+    real    0m6.632s
+    user    0m5.753s
+    sys     0m0.544s
+
+WITH /DEV/URANDOM
+    time ./randall 133562368 -i /dev/urandom | cat >/dev/null
+
+    real    0m4.882s
+    user    0m4.190s
+    sys     0m0.810s
+
+TEST 4:
+    time ./randall 133562368 >rand.data
+
+    real    0m6.564s
+    user    0m6.312s
+    sys     0m0.129s
+
+WITH /DEV/URANDOM
+    time ./randall 133562368 -i /dev/urandom >rand.data
+
+    real    0m4.995s
+    user    0m4.115s
+    sys     0m0.764s

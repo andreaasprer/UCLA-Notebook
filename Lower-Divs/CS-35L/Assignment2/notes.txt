@@ -1,0 +1,77 @@
+1. Result: 141053783706712069063207958086063189881486743514715667838838675999954867742652380114104193329037690251561950568709829327164087724366370087116731268159313652487450652439805877296207297446723295166658228846926807786652870188920867879451478364569313922060370695064736073572378695176473055266826253284886383715072974324463835300053138429460296575143368065570759537328128
+   Command used: (* (expt 2 (- 607 1)) (- (expt 2 607) 1))
+
+2. Command used: (+ (floor (+ (log (expt 2 (- 607 1)) 2) (log (- (expt 2 607) 1) 2))) 1)
+   and the result I got was 1214
+
+3. C-h k is the keybinding for the describe-key command. So by doing C-h k C-h k it will display
+   information about what that key sequence does. In this case it describes what the describe-key command does.
+
+4. Similarly, C-h k M-SPC will display information that describes what the keybinding does, 
+   which runs the cycle-spacing command.
+
+5. The general M-SPC function is the cycle-spacing funtion. There are 3 different ways to execute the function. 
+   First way is to use the keybinding for the function M-SPC while on the buffer. Second is to use M-: (cycle-spacing). 
+   Third way is to use M-x cycle-spacing.
+
+6. When I run shuf.py on Python 2 it ran into errors. Python 2 and 3 are very distinct.
+   One of the errors I encountered was with f-strings which are not supported in Python 2.
+   Other sources of error were with file handling and argparse behavior.
+
+7. CPU: Intel(R) Xeon(R) Silver 4116 CPU @ 2.10GHz
+   OS version: Red Hat Enterprise Linux 9.5 (Plow)
+
+   Python 3.9:
+   time /usr/bin/python3 shuf.py < /usr/share/unicode/ucd/BidiTest.txt > /dev/null
+   
+   real    0m0.795s
+   user    0m0.741s
+   sys     0m0.049s
+
+   real    0m0.790s
+   user    0m0.741s
+   sys     0m0.044s
+
+   real    0m0.806s
+   user    0m0.766s
+   sys     0m0.036s
+
+   Sum of user and sys times: 0.790, 0.785, 0.802
+   Median: 0.790
+
+   Python 3.11:
+   time /usr/local/cs/bin/python3 shuf.py < /usr/share/unicode/ucd/BidiTest.txt > /dev/null
+   real    0m0.799s
+   user    0m0.703s
+   sys     0m0.049s
+
+   real    0m0.750s
+   user    0m0.699s
+   sys     0m0.033s
+
+   real    0m0.777s
+   user    0m0.718s
+   sys     0m0.041s
+
+   Sum of user and sys times: .752, .732, .759
+   Median: .752
+
+   coreutils shuf:
+   time /usr/local/cs/bin/shuf  < /usr/share/unicode/ucd/BidiTest.txt > /dev/null
+   real    0m0.079s
+   user    0m0.065s
+   sys     0m0.012s
+
+   real    0m0.069s
+   user    0m0.059s
+   sys     0m0.010s
+
+   real    0m0.076s
+   user    0m0.066s
+   sys     0m0.009s
+
+   Sum of user and sys times: .077, .069, .075
+   Median: .075
+   
+   My shuf implementation works on both 3.11 and 3.9 versions.
+ 
