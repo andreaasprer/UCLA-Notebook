@@ -1,0 +1,26 @@
+#!/bin/bash
+
+echo -n "Class Name: "
+read class
+MSG="${class}: "
+
+echo -n "Content: "
+read content
+MSG+=${content}
+
+echo ""
+echo "Press Enter to confirm message"
+echo "-----------------------------------------------------"
+echo "$MSG"
+echo "-----------------------------------------------------"
+
+read -n 1 key
+
+if [[ -z "$key" ]]; then
+    git add . && \
+    git commit -m "$MSG" && \
+    git push origin main && \
+    echo "push successful"
+else
+    echo "push aborted"
+fi
